@@ -12,13 +12,9 @@ if (error) return Astro.redirect("/404");
 const { product, images } = data;
 ---
 
-<MainLayout
-  title={product.title}
-  description={product.description}
-  image={images[0]}
->
+<MainLayout title={product.title} description={product.description}>
   <div class="grid grid-cols-1 sm:grid-cols-3 w-full gap-4">
-    <ProductSlideShow images={images} />
+    <ProductSlideShow images={images.map((i) => i.image)} />
 
     <section>
       <h2 class="text-2xl font-bold">{product.title}</h2>
