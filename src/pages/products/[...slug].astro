@@ -10,9 +10,17 @@ const { data, error } = await actions.getProductBySlug(slug ?? "");
 if (error) return Astro.redirect("/404");
 
 const { product, images } = data;
+
+const image = images[0].image.startsWith("http")
+  ? images[0].image
+  : `${import.meta.env.PUBLIC_URL}/images/products/${images[0].image}`;
 ---
 
-<MainLayout title={product.title} description={product.description}>
+<MainLayout
+  title={product.title}
+  description={product.description}
+  image={image}
+>
   <div class="grid grid-cols-1 sm:grid-cols-3 w-full gap-4">
     <ProductSlideShow images={images.map((i) => i.image)} />
 
