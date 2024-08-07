@@ -9,15 +9,20 @@ cloudinary.config({
 
 export class ImageUpload {
   static async upload(file: File) {
-    const buffer = await file.arrayBuffer();
-    const base64image = Buffer.from(buffer).toString("base64");
-    const imageType = file.type.split("/")[1];
+    try {
+      const buffer = await file.arrayBuffer();
+      const base64image = Buffer.from(buffer).toString("base64");
+      const imageType = file.type.split("/")[1];
 
-    const resp = await cloudinary.uploader.upload(
-      `data:image/${imageType};base64,${base64image}`
-    );
+      const resp = await cloudinary.uploader.upload(
+        `data:image/${imageType};base64,${base64image}`
+      );
 
-    return resp.secure_url;
+      return resp.secure_url;
+    } catch (error) {
+      console.log(error);
+      throw new Error(JSON.stringify(error));
+    }
   }
 
   static async delete(image: string) {
